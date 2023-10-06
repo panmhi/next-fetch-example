@@ -7,6 +7,7 @@ type UseFetchTodosReturnValues = {
   isLoading: boolean;
 };
 
+// Native fetch with AbortController
 const useFetchTodos = (): UseFetchTodosReturnValues => {
   const [todos, setTodos] = useState([]);
   const [error, setError] = useState<string | null>(null);
