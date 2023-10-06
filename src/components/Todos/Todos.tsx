@@ -2,7 +2,7 @@ import useFetchTodos from '@/hooks/useFetchTodos';
 import { FC } from 'react';
 
 const Todos: FC = () => {
-  const { todos } = useFetchTodos({ forceError: true });
+  const { todos } = useFetchTodos();
 
   return (
     <ul className='w-full space-y-4 py-2'>

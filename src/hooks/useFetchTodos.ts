@@ -1,10 +1,5 @@
-import { wait } from '@/lib/utils';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
-
-type UseFetchTodosProps = {
-  forceError?: boolean;
-};
 
 type UseFetchTodosReturnValues = {
   todos: any[];
@@ -12,24 +7,19 @@ type UseFetchTodosReturnValues = {
   isLoading: boolean;
 };
 
-const useFetchTodos = ({ forceError }: UseFetchTodosProps): UseFetchTodosReturnValues => {
+const useFetchTodos = (): UseFetchTodosReturnValues => {
   const [todos, setTodos] = useState([]);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const abortController = useRef<AbortController | null>(null);
 
   const fetchTodos = useCallback(async () => {
+    abortController.current = new AbortController();
+
     try {
       setIsLoading(true);
       let url = '/api/todos';
-
-      if (forceError) {
-        // Append '?forceError=true' to the url so that the API endpoint will throw an error back to us
-        await wait(2000);
-        const searchParams = new URLSearchParams({ forceError: 'true' });
-        url = `${url}?${searchParams.toString()}`;
-      }
-
-      const response = await fetch(url);
+      const response = await fetch(url, { signal: abortController.current.signal });
       if (!response.ok) {
         throw new Error('Failed to fetch todos');
       }
@@ -46,17 +36,20 @@ const useFetchTodos = ({ forceError }: UseFetchTodosProps): UseFetchTodosReturnV
         setError('Something went wrong');
       }
     }
-  }, [forceError]);
+  }, []);
 
   useEffect(() => {
     fetchTodos();
+    return () => {
+      abortController.current?.abort();
+    };
   }, [fetchTodos]);
 
   useEffect(() => {
-    if (error) {
-      toast.error(error);
+    if (todos.length > 0) {
+      toast.success('Todos fetched successfully');
     }
-  }, [error]);
+  }, [todos]);
 
   return { todos, error, isLoading };
 };
