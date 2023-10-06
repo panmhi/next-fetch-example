@@ -1,7 +1,7 @@
 import { wait } from '@/lib/utils';
 import { NextResponse } from 'next/server';
 
-export async function GET(request: Request) {
+export async function GET() {
   try {
     await wait(2000);
     const response = await fetch('https://dummyjson.com/todos?limit=10');

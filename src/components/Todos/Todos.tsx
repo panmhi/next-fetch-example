@@ -1,8 +1,10 @@
 import useFetchTodos from '@/hooks/useFetchTodos';
+import useSWRFetchTodos from '@/hooks/useSWRFetchTodos';
 import { FC } from 'react';
 
 const Todos: FC = () => {
-  const { todos } = useFetchTodos();
+  // const { todos } = useFetchTodos();
+  const { todos } = useSWRFetchTodos();
 
   return (
     <ul className='w-full space-y-4 py-2'>

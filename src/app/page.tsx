@@ -29,10 +29,11 @@ export default function Home() {
           <TabsContent value='other'>
             <div className='rounded-lg border bg-card p-6 text-card-foreground shadow-sm'>
               <p>
-                When switch to this tab, the request made in the Todos tab is still being sended to
+                When switch to this tab, the request made in the Todos tab is still being sent to
                 the server. To prevent this unnecessary request from happening, we need to add an
                 AbortController to abort the fetch request on component unmount.
               </p>
+              <p>Same for native fetch and SWR.</p>
             </div>
           </TabsContent>
         )}
