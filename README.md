@@ -6,7 +6,7 @@ When a component that fetches data is unmounted, the request made in that compon
 
 To prevent this unnecessary request from happening, we need to add an AbortController to abort the fetch request on component unmount.
 
-This solution is applicable to both the natvie fetch API and SWR.
+This solution is applicable to the natvie fetch API, SWR and TanStack Query.
 
 ## Getting Started
 
