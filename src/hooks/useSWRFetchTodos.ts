@@ -1,17 +1,11 @@
 import useSWR from 'swr';
-import { useCallback, useRef, MutableRefObject, useEffect } from 'react';
-
-type UseSWRFetchTodosReturnValues = {
-  todos: any[];
-  error: string | null;
-  isLoading: boolean;
-};
+import { useCallback, useRef, useEffect } from 'react';
 
 // SWR with AbortController
-const useSWRFetchTodos = (): UseSWRFetchTodosReturnValues => {
-  const abortController: MutableRefObject<AbortController | null> = useRef(null);
+const useSWRFetchTodos = () => {
+  const abortController = useRef<AbortController | null>(null);
 
-  const fetchTodos = useCallback(async () => {
+  const fetchTodos = useCallback(async (): Promise<any[]> => {
     abortController.current = new AbortController();
     try {
       let url = '/api/todos';
@@ -26,7 +20,7 @@ const useSWRFetchTodos = (): UseSWRFetchTodosReturnValues => {
     }
   }, []);
 
-  const { data: todos, error, isLoading } = useSWR('FETCH_TODOS', fetchTodos);
+  const { data: todos, error, isLoading } = useSWR('SWR_TODOS', fetchTodos);
 
   useEffect(() => {
     return () => {

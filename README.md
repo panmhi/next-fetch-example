@@ -1,5 +1,13 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+## Introduction
+
+When a component that fetches data is unmounted, the request made in that component will still be sent out to the server.
+
+To prevent this unnecessary request from happening, we need to add an AbortController to abort the fetch request on component unmount.
+
+This solution is applicable to both the natvie fetch API and SWR.
+
 ## Getting Started
 
 First, run the development server:
